@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\HARDWARE\LED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\HARDWARE\LCD;..\HARDWARE\ADC;..\HARDWARE\DAC;..\HARDWARE\KEY</IncludePath>
+              <IncludePath>..\HARDWARE\LED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\HARDWARE\LCD;..\HARDWARE\ADC;..\HARDWARE\DAC;..\HARDWARE\KEY;..\HARDWARE\AD9854;..\HARDWARE\SPI_PortSimulate</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -426,6 +426,16 @@
               <FileName>dac.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\DAC\dac.c</FilePath>
+            </File>
+            <File>
+              <FileName>AD9854.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\AD9854\AD9854.c</FilePath>
+            </File>
+            <File>
+              <FileName>spix.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\SPI_PortSimulate\spix.c</FilePath>
             </File>
           </Files>
         </Group>

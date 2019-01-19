@@ -35,4 +35,7 @@
 ..\obj\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\main.o: ..\HARDWARE\LCD\lcd.h
 ..\obj\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\main.o: ..\HARDWARE\AD9854\AD9854.h
+..\obj\main.o: ..\HARDWARE\SPI_PortSimulate\spix.h
+..\obj\main.o: ..\HARDWARE\ADC\adc.h
 ..\obj\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
