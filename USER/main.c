@@ -33,8 +33,28 @@
 #define Y_45_ 290
 #define Y_50_ 300
 
-int adc_raw[391]={0};
+#define AMP	1000
+
+//int adc1_raw[391]={0};
+//int adc2_raw[391]={0};
+
 int adc1data,adc2data;
+
+int adc1;
+int adc2;
+float vi;
+float vq;
+float H_raw;
+float H_dB;
+float phase;
+float phase_d;
+int lcd_x_temp=2*X_1M;
+int lcd_x;
+int lcd_y1;
+int lcd_y2;
+
+
+int mian(void);
 	
  int main(void)
  { 
@@ -56,10 +76,50 @@ int adc1data,adc2data;
 	 
 		while(1)
 		{
-			adc1data=Get_Adc_Average(ADC_Channel_1,5);
-			adc2data=Get_Adc2_Average(ADC_Channel_10,5);
-			LCD_ShowNum(40,40,adc1data,4,16);
-			LCD_ShowNum(40,80,adc2data,4,16);
+			
+			mian();
+			
+			//adc1data=Get_Adc_Average(ADC_Channel_1,5);
+			//adc2data=Get_Adc2_Average(ADC_Channel_10,5);
+			//LCD_ShowNum(40,40,adc1data,4,16);
+			//LCD_ShowNum(40,80,adc2data,4,16);
 		}
 }	
 
+
+
+int mian(void)
+{
+	//scan
+	adc1=Get_Adc_Average(ADC_Channel_1,5);
+	adc2=Get_Adc2_Average(ADC_Channel_10,5);
+	vi=3300*(adc1/4095);
+	vq=3300*(adc2/4095);
+	H_raw=(2*sqrt(vi*vi+vq*vq))/(AMP*AMP);
+	H_dB=20*log(H_raw);
+	phase=atan(vq/vi);
+	phase_d=phase*(180/3.14);
+	lcd_x=lcd_x_temp/2;
+	lcd_x_temp++;
+	
+	lcd_y1=20-3*H_dB;
+	lcd_y2=200-2*phase_d;
+	//LCD_ShowNum(40,40,lcd_y1,4,16);
+	//LCD_ShowNum(40,80,lcd_y2,4,16);
+	//printf("%d %d %d \n",lcd_x,lcd_y1,lcd_y2);
+	LCD_DrawPoint(lcd_x,lcd_y1);
+	LCD_DrawPoint(lcd_x,lcd_y2);
+	LCD_Fill(lcd_x+1,0,lcd_x+30,139,WHITE);
+	LCD_Fill(lcd_x+1,161,lcd_x+30,299,WHITE);
+	if(lcd_x>=X_40M)
+	{
+		lcd_x_temp=2*X_1M;
+		LCD_Fill(21,161,51,299,WHITE);
+		//LCD_Clear(WHITE);
+		//LCD_DrawLine(1,160,240,160);
+		//LCD_DrawLine(20,140,220,140);
+		//LCD_DrawLine(20,140,20,20);
+		//LCD_DrawLine(20,300,220,300);
+		//LCD_DrawLine(20,300,20,180);
+	}
+}
