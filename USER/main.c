@@ -8,7 +8,7 @@
 #include "adc.h"
 
 #include <math.h>
-
+ 
 #define X_1M 25
 #define X_200k 1
 #define X_40M 211
@@ -38,7 +38,7 @@
 //int adc1_raw[391]={0};
 //int adc2_raw[391]={0};
 
-int adc1data,adc2data;
+//int adc1data,adc2data;
 
 int adc1;
 int adc2;
@@ -57,6 +57,8 @@ float freq;
 float xMHz=1;
 float fit;
 
+extern u16 Get_Adc_Average(u8 ch,u8 times);
+extern u16 Get_Adc2_Average(u8 ch,u8 times);
 
 int scan_single(void);
 	
@@ -67,7 +69,7 @@ int main(void)
 		//SPIx_Init();
 		//LED_Init();		  		//初始化与LED连接的硬件接口
 		LCD_Init();			   	//初始化LCD 	
-		//AD9854Init();
+		AD9854Init();
 		//Freq_SW();
 		Adc_Init();
 		Adc2_Init();
@@ -98,6 +100,7 @@ int scan_single(void)
 	adc1=Get_Adc_Average(ADC_Channel_1,5);
 	adc2=Get_Adc2_Average(ADC_Channel_10,5);
 	
+	
 	freq=xMHz*1000000;
 	if(xMHz<25)
 	{
@@ -119,6 +122,7 @@ int scan_single(void)
 	if(xMHz>40)
 		xMHz=1;
 	
+	
 	vi=3300*(adc1/4095);
 	vq=3300*(adc2/4095);
 	H_raw=(2*sqrt(vi*vi+vq*vq))/(AMP*AMP);
@@ -130,10 +134,10 @@ int scan_single(void)
 	
 	lcd_y1=20-3*H_dB;
 	lcd_y2=200-2*phase_d;
-	//LCD_ShowNum(40,40,lcd_y1,4,16);
-	//LCD_ShowNum(40,80,lcd_y2,4,16);
-	//printf("%d %d %d \n",lcd_x,lcd_y1,lcd_y2);
-	//printf("%f %f %f %f \n",H_raw,H_dB,phase,phase_d);
+	LCD_ShowNum(40,40,lcd_y1,4,16);
+	LCD_ShowNum(40,80,lcd_y2,4,16);
+	printf("%d %d %d \n",lcd_x,lcd_y1,lcd_y2);
+	printf("%f %f %f %f \n",H_raw,H_dB,phase,phase_d);
 	LCD_DrawPoint(lcd_x,lcd_y1);
 	LCD_DrawPoint(lcd_x,lcd_y2);
 	LCD_Fill(lcd_x+1,0,lcd_x+30,139,WHITE);
