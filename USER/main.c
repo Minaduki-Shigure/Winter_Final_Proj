@@ -64,6 +64,7 @@ int scan_single(void);
 	
 int main(void)
 { 
+		GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable,ENABLE);
 		delay_init();	    	 //延时函数初始化	  
 		uart_init(9600);	 	//串口初始化为9600
 		//SPIx_Init();
