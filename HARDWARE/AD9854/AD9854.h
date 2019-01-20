@@ -51,29 +51,29 @@ void AD9854WriteFreqStep(unsigned char *freqstep);
 void CalculateFreqWord(double freq);
 
 /***************Pin define******************************************/
-#define RCC_AD9854_CS				RCC_APB2Periph_GPIOC
-#define RCC_AD9854_SCLK				RCC_APB2Periph_GPIOC
-#define RCC_AD9854_UPDATE			RCC_APB2Periph_GPIOC
-#define RCC_AD9854_SDIO				RCC_APB2Periph_GPIOC
-#define RCC_AD9854_IO_RESET			RCC_APB2Periph_GPIOB
-#define RCC_AD9854_RST				RCC_APB2Periph_GPIOB
-#define RCC_AS9854_SDO				RCC_APB2Periph_GPIOB
+#define RCC_AD9854_CS				RCC_APB2Periph_GPIOA
+#define RCC_AD9854_SCLK				RCC_APB2Periph_GPIOA
+#define RCC_AD9854_UPDATE			RCC_APB2Periph_GPIOA
+#define RCC_AD9854_SDIO				RCC_APB2Periph_GPIOA
+#define RCC_AD9854_IO_RESET			RCC_APB2Periph_GPIOA
+#define RCC_AD9854_RST				RCC_APB2Periph_GPIOA
+#define RCC_AS9854_SDO				RCC_APB2Periph_GPIOA
 
-#define AD9854_CS_GPIO				GPIOC
-#define AD9854_SCLK_GPIO			GPIOC
-#define AD9854_UPDATE_GPIO			GPIOC
-#define AD9854_SDIO_GPIO			GPIOC
-#define AD9854_IO_RESET_GPIO		GPIOB
-#define AD9854_RST_GPIO				GPIOB
-#define AD9854_SDO_GPIO				GPIOB
+#define AD9854_CS_GPIO				GPIOA
+#define AD9854_SCLK_GPIO			GPIOA
+#define AD9854_UPDATE_GPIO			GPIOA
+#define AD9854_SDIO_GPIO			GPIOA
+#define AD9854_IO_RESET_GPIO		GPIOA
+#define AD9854_RST_GPIO				GPIOA
+#define AD9854_SDO_GPIO				GPIOA
 
-#define AD9854_CS_Pin				GPIO_Pin_9
-#define AD9854_SCLK_Pin				GPIO_Pin_8
-#define AD9854_UPDATE_Pin			GPIO_Pin_7
+#define AD9854_CS_Pin				GPIO_Pin_3
+#define AD9854_SCLK_Pin				GPIO_Pin_4
+#define AD9854_UPDATE_Pin			GPIO_Pin_5
 #define AD9854_SDIO_Pin				GPIO_Pin_6
-#define AD9854_IO_RESET_Pin			GPIO_Pin_0
-#define AD9854_RST_Pin				GPIO_Pin_1
-#define AD9854_SDO_Pin				GPIO_Pin_2
+#define AD9854_IO_RESET_Pin			GPIO_Pin_7
+#define AD9854_RST_Pin				GPIO_Pin_9
+#define AD9854_SDO_Pin				GPIO_Pin_10
 
 
 #define AD9854_CS_H					GPIO_SetBits(AD9854_CS_GPIO,AD9854_CS_Pin)

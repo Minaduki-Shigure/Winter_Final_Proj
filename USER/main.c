@@ -70,7 +70,7 @@ int main(void)
 		//SPIx_Init();
 		//LED_Init();		  		//初始化与LED连接的硬件接口
 		LCD_Init();			   	//初始化LCD 	
-		//AD9854Init();
+		AD9854Init();
 		//Freq_SW();
 		Adc_Init();
 		Adc2_Init();
@@ -81,26 +81,19 @@ int main(void)
 		LCD_DrawLine(20,300,220,300);
 		LCD_DrawLine(20,300,20,180);
 	 
+		xMHz=1;
+		freq=xMHz*1000000;
+		fit=864000/(267-2.35*xMHz);		//强行调整输出
+		if(fit>4095)
+			fit=4095;
+		AD9854SetAmp(fit,fit);
+		AD9854WriteFreqSingle(freq);
+		xMHz+=0.1;
+		
 		while(1)
-		{
-			adc1=Get_Adc_Average(ADC_Channel_1,5);
-			adc2=Get_Adc2_Average(ADC_Channel_2,5);
-			LCD_ShowNum(40,40,adc1,4,16);
-			LCD_ShowNum(40,80,adc2,4,16);
+		{			
+			scan_single();		
 		}
-		//xMHz=1;
-		//freq=xMHz*1000000;
-		//fit=864000/(267-2.35*xMHz);		//强行调整输出
-		//if(fit>4095)
-		//	fit=4095;
-		//AD9854SetAmp(fit,fit);
-		//AD9854WriteFreqSingle(freq);
-		//xMHz+=0.1;
-		//
-		//while(1)
-		//{			
-		//	scan_single();		
-		//}
 }
 
 int scan_single(void)
@@ -144,6 +137,8 @@ int scan_single(void)
 	lcd_y2=200-2*phase_d;
 	//LCD_ShowNum(40,40,lcd_y1,4,16);
 	//LCD_ShowNum(40,80,lcd_y2,4,16);
+	//LCD_ShowNum(40,40,adc1,4,16);
+	//LCD_ShowNum(40,80,adc2,4,16);
 	//printf("%d %d %d \n",lcd_x,lcd_y1,lcd_y2);
 	//printf("%f %f %f %f \n",H_raw,H_dB,phase,phase_d);
 	LCD_DrawPoint(lcd_x,lcd_y1);
