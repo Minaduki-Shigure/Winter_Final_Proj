@@ -53,11 +53,15 @@ int lcd_x;
 int lcd_y1;
 int lcd_y2;
 
+float freq;
+float xMHz=1;
+float fit;
 
-int mian(void);
+
+int scan_single(void);
 	
- int main(void)
- { 
+int main(void)
+{ 
 		delay_init();	    	 //延时函数初始化	  
 		uart_init(9600);	 	//串口初始化为9600
 		//SPIx_Init();
@@ -74,25 +78,47 @@ int mian(void);
 		LCD_DrawLine(20,300,220,300);
 		LCD_DrawLine(20,300,20,180);
 	 
+		xMHz=1;
+		freq=xMHz*1000000;
+		fit=864000/(267-2.35*xMHz);		//强行调整输出
+		if(fit>4095)
+			fit=4095;
+		AD9854SetAmp(fit,fit);
+		AD9854WriteFreqSingle(freq);
+		xMHz+=0.1;
+	
 		while(1)
-		{
-			
-			mian();
-			
-			//adc1data=Get_Adc_Average(ADC_Channel_1,5);
-			//adc2data=Get_Adc2_Average(ADC_Channel_10,5);
-			//LCD_ShowNum(40,40,adc1data,4,16);
-			//LCD_ShowNum(40,80,adc2data,4,16);
+		{			
+			scan_single();		
 		}
-}	
+}
 
-
-
-int mian(void)
+int scan_single(void)
 {
-	//scan
 	adc1=Get_Adc_Average(ADC_Channel_1,5);
 	adc2=Get_Adc2_Average(ADC_Channel_10,5);
+	
+	freq=xMHz*1000000;
+	if(xMHz<25)
+	{
+		fit=864000/(267-2.35*xMHz);		//强行调整输出
+	}
+	else if(xMHz>29)
+	{
+		fit=864000/(146+2.33*xMHz);
+	}
+	else
+	{
+		fit=4075;
+	}
+	if(fit>4095)
+		fit=4095;
+	AD9854SetAmp(fit,fit);
+	AD9854WriteFreqSingle(freq);
+	xMHz+=0.1;
+	if(xMHz>40)
+		xMHz=1;
+	
 	vi=3300*(adc1/4095);
 	vq=3300*(adc2/4095);
 	H_raw=(2*sqrt(vi*vi+vq*vq))/(AMP*AMP);
@@ -107,6 +133,7 @@ int mian(void)
 	//LCD_ShowNum(40,40,lcd_y1,4,16);
 	//LCD_ShowNum(40,80,lcd_y2,4,16);
 	//printf("%d %d %d \n",lcd_x,lcd_y1,lcd_y2);
+	//printf("%f %f %f %f \n",H_raw,H_dB,phase,phase_d);
 	LCD_DrawPoint(lcd_x,lcd_y1);
 	LCD_DrawPoint(lcd_x,lcd_y2);
 	LCD_Fill(lcd_x+1,0,lcd_x+30,139,WHITE);
@@ -122,4 +149,5 @@ int mian(void)
 		//LCD_DrawLine(20,300,220,300);
 		//LCD_DrawLine(20,300,20,180);
 	}
+	return 0;
 }
